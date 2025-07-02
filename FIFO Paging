@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+int isInFrame(int frames[], int n, int page) {
+    for (int i = 0; i < n; i++) {
+        if (frames[i] == page)
+            return 1;
+    }
+    return 0;
+}
+
+int main() {
+    int pages[100], frames[10], n, f, i, j = 0, faults = 0;
+
+    printf("Enter number of pages: ");
+    scanf("%d", &n);
+    printf("Enter page reference string: ");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &pages[i]);
+    }
+    printf("Enter number of frames: ");
+    scanf("%d", &f);
+
+    for (i = 0; i < f; i++)
+        frames[i] = -1;
+
+    for (i = 0; i < n; i++) {
+        if (!isInFrame(frames, f, pages[i])) {
+            frames[j] = pages[i];
+            j = (j + 1) % f;
+            faults++;
+        }
+    }
+
+    printf("Page Faults: %d\n", faults);
+    return 0;
+}
