@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+int main() {
+    int total_blocks, file_count;
+    int blocks[100] = {0};
+
+    printf("Enter total number of blocks: ");
+    scanf("%d", &total_blocks);
+
+    printf("Enter number of files: ");
+    scanf("%d", &file_count);
+
+    for (int i = 0; i < file_count; i++) {
+        int start, length;
+        printf("Enter start block and length of file %d: ", i + 1);
+        scanf("%d%d", &start, &length);
+
+        int flag = 1;
+        if (start + length > total_blocks) {
+            printf("Not enough blocks.\n");
+            continue;
+        }
+
+        for (int j = start; j < start + length; j++) {
+            if (blocks[j] == 1) {
+                flag = 0;
+                break;
+            }
+        }
+
+        if (flag == 1) {
+            for (int j = start; j < start + length; j++)
+                blocks[j] = 1;
+
+            printf("File %d allocated at blocks: ", i + 1);
+            for (int j = start; j < start + length; j++)
+                printf("%d ", j);
+            printf("\n");
+        } else {
+            printf("Blocks already allocated. File %d cannot be allocated.\n", i + 1);
+        }
+    }
+
+    return 0;
+}
