@@ -1,0 +1,41 @@
+#include <stdio.h>
+
+int main() {
+    int blockSize[10], processSize[10], blockCount, processCount, allocation[10];
+
+    printf("Enter number of blocks: ");
+    scanf("%d", &blockCount);
+    printf("Enter block sizes: ");
+    for (int i = 0; i < blockCount; i++) {
+        scanf("%d", &blockSize[i]);
+    }
+
+    printf("Enter number of processes: ");
+    scanf("%d", &processCount);
+    printf("Enter process sizes: ");
+    for (int i = 0; i < processCount; i++) {
+        scanf("%d", &processSize[i]);
+        allocation[i] = -1;
+    }
+
+    for (int i = 0; i < processCount; i++) {
+        for (int j = 0; j < blockCount; j++) {
+            if (blockSize[j] >= processSize[i]) {
+                allocation[i] = j;
+                blockSize[j] -= processSize[i];
+                break;
+            }
+        }
+    }
+
+    printf("\nProcess No.\tSize\tBlock No.\n");
+    for (int i = 0; i < processCount; i++) {
+        printf("%d\t\t%d\t", i + 1, processSize[i]);
+        if (allocation[i] != -1)
+            printf("%d\n", allocation[i] + 1);
+        else
+            printf("Not Allocated\n");
+    }
+
+    return 0;
+}
