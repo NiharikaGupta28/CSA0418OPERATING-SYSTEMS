@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <pthread.h>
+#include <unistd.h>
+
+int n;
+
+void* print_even(void* arg) {
+    for (int i = 0; i <= n; i++) {
+        if (i % 2 == 0) {
+            printf("Even: %d\n", i);
+            usleep(100000);
+        }
+    }
+    return NULL;
+}
+
+void* print_odd(void* arg) {
+    for (int i = 0; i <= n; i++) {
+        if (i % 2 != 0) {
+            printf("Odd: %d\n", i);
+            usleep(100000);
+        }
+    }
+    return NULL;
+}
+
+int main() {
+    printf("Enter n: ");
+    scanf("%d", &n);
+
+    pthread_t t1, t2;
+
+    pthread_create(&t1, NULL, print_even, NULL);
+    pthread_create(&t2, NULL, print_odd, NULL);
+
+    pthread_join(t1, NULL);
+    pthread_join(t2, NULL);
+
+    return 0;
+}
